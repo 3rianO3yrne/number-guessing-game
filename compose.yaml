@@ -13,15 +13,16 @@ services:
       context: .
     stop_signal: SIGINT
     environment:
-      - WATCHFILES_FORCE_POLLING:true
       - PORT:8000
     tty: true
     ports:
       - 8000:8000
-    volumes:
-      - ./app:/code/app  # Mount your FastAPI application code
-
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4 --reload
+    command: ["fastapi", "run", "app/main.py", "--port", "8000", "--reload"]
+    develop:
+      watch:
+        - action: sync
+          path: ./app
+          target: /code/app
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to

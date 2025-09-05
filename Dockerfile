@@ -22,7 +22,6 @@ COPY ./requirements.txt /code/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
 ARG UID=10001
@@ -35,16 +34,14 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
-
 # Switch to the non-privileged user to run the application.
 USER appuser
 
 # Copy the source code into the container.
-COPY . /code/app
+COPY --chown=appuser:code ./app /code/app
 
 # Expose the port that the application listens on.
 EXPOSE 8000
 
 # Run the application.
-# CMD ["fastapi", "run", "app/main.py", "--port", "8000", "--reload"]
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4", "--reload"]
+CMD ["fastapi", "run", "app/main.py", "--port", "8000"]
