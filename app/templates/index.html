@@ -1,0 +1,17 @@
+<html>
+<head>
+    <title>{{ title }}</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+    
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <p>Welcome to the Number Guessing Game!</p>
+    <form action="/newgame/" method="post">
+         <label>
+            <input name="submitted-number" autocomplete="number" />
+         </label>
+        <button type="submit">Start New Game</button>
+    </form>
+</body>
+</html>
