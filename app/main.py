@@ -9,21 +9,21 @@ from fastapi.templating import Jinja2Templates
 
 from sqlmodel import Session
 
-from .routers import items
-from .dependencies import SessionDep, get_session
+from .routers import items, players
 from .config import get_settings, Settings
+from .db import create_db_and_tables, SessionDep
 
 
 app = FastAPI()
 app.include_router(items.router)
+app.include_router(players.router)
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
 
 @app.on_event("startup")
 def on_startup():
-    # create_db_and_tables()
-    pass
+    create_db_and_tables()
 
 
 @app.get("/info")
