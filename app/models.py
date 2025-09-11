@@ -24,7 +24,6 @@ class PlayerCreate(PlayerBase):
 
 
 class PlayerUpdate(PlayerBase):
-
     name: str | None = None
 
 
