@@ -3,6 +3,7 @@ services:
   server:
     build:
       context: .
+      dockerfile: Dockerfile
     stop_signal: SIGINT
     environment:
       - PORT:8000

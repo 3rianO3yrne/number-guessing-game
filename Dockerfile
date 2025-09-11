@@ -16,11 +16,35 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # the application crashes without emitting any logs due to buffering.
 ENV PYTHONUNBUFFERED=1
 
+# Install pipx
+RUN pip install pipx
+
+ENV POETRY_NO_INTERACTION=1 \
+    POETRY_VIRTUALENVS_CREATE=false \
+    POETRY_CACHE_DIR=/tmp/poetry_cache \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_HOME=/usr/local 
+
+
+ENV PIPX_HOME=/opt/pipx \
+    PIPX_BIN_DIR=/usr/local/bin \
+    PIPX_MAN_DIR=/usr/local/share/man
+
+
+ENV PYSETUP_PATH=/opt/pysetup 
+ENV VENV_PATH=/opt/pysetup/.venv
+
+# prepend poetry and venv to path
+ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+
+RUN pipx install poetry
+
+WORKDIR $PYSETUP_PATH
+COPY pyproject.toml poetry.lock ./
+RUN poetry install  --no-interaction --no-ansi --no-root --only main 
+
+
 WORKDIR /code
-
-COPY ./requirements.txt /code/requirements.txt
-
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
