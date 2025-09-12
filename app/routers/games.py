@@ -23,7 +23,6 @@ async def get_games(session: SessionDep):
 
 @router.post("/", response_model=GamePublicWithPlayerGuesses)
 async def create_game(game: GameCreate, session: SessionDep):
-
     player = await read_player(game.player_id, session)
 
     game_db = Game.model_validate(game)
@@ -35,7 +34,6 @@ async def create_game(game: GameCreate, session: SessionDep):
 
 @router.get("/{game_id}", response_model=GamePublicWithPlayerGuesses)
 async def get_game(game_id: str, session: SessionDep):
-
     game = session.get(Game, game_id)
 
     if not game:

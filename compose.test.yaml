@@ -1,0 +1,19 @@
+
+services:
+  test_server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    stop_signal: SIGINT
+    environment:
+      # - PORT: !reset []
+      - DATABASE_URL=test/data/test-database.db
+    tty: true
+    # ports: !reset []
+    command: ["uv", "run", "pytest", "-s"]
+    volumes:
+      - sqlite_data:/code/test/data
+
+volumes:
+  sqlite_data:
+  

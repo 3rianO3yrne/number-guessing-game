@@ -26,7 +26,6 @@ async def create_guess(guess: GuessCreate, session: SessionDep):
 
 @router.get("/{guess_id}", response_model=list[GuessPublic])
 async def read_guess(guess_id: int, session: SessionDep):
-
     guess = session.get(Guess, guess_id)
     if not guess:
         raise HTTPException(status_code=404, detail="Guess not found")
