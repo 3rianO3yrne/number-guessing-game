@@ -1,17 +1,16 @@
-from typing import Union, Annotated, Optional
 from uuid import uuid4
 
-from sqlmodel import Field, SQLModel, Relationship
+from sqlmodel import Field, Relationship, SQLModel
 
 
 # Player models
 class PlayerBase(SQLModel):
     name: str = Field(index=True, title="The player's name")
-    player_id: int | None = Field(default=None, primary_key=True)
 
 
 class Player(PlayerBase, table=True):
     games: list["Game"] = Relationship(back_populates="player")
+    player_id: int | None = Field(default=None, primary_key=True)
 
 
 class PlayerPublic(PlayerBase):
@@ -54,16 +53,17 @@ class GameUpdate(GameBase):
 # Guess models
 class GuessBase(SQLModel):
     value: int = Field(title="The guessed number", le=999)
+    guess_id: int | None = Field(default=None, primary_key=True)
 
 
 class Guess(GuessBase, table=True):
-    guess_id: int | None = Field(default=None, primary_key=True)
     game_id: str | None = Field(default=None, foreign_key="game.game_id")
     game: Game | None = Relationship(back_populates="guesses")
 
 
 class GuessPublic(GuessBase):
     value: int | None
+    guess_id: int
 
 
 class GuessCreate(GuessBase):

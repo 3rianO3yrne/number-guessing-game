@@ -2,8 +2,8 @@ from fastapi import HTTPException, APIRouter
 from sqlmodel import select
 
 
-from ..db import SessionDep
-from ..models import Guess, GuessPublic, GuessCreate
+from ..database.db import SessionDep
+from ..models.models import Guess, GuessPublic, GuessCreate
 
 
 router = APIRouter(prefix="/guess", tags=["guess"])
@@ -24,7 +24,7 @@ async def create_guess(guess: GuessCreate, session: SessionDep):
     return guess_db
 
 
-@router.get("/{guess_id}", response_model=list[GuessPublic])
+@router.get("/{guess_id}", response_model=GuessPublic)
 async def read_guess(guess_id: int, session: SessionDep):
     guess = session.get(Guess, guess_id)
     if not guess:

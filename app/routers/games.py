@@ -2,8 +2,9 @@ from fastapi import APIRouter, HTTPException, APIRouter
 
 from sqlmodel import select
 
-from ..db import SessionDep
-from ..models import (
+from ..database.db import SessionDep
+from ..models.models import (
+    Player,
     PlayerPublic,
     Game,
     GameCreate,

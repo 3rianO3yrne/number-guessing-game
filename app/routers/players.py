@@ -1,8 +1,8 @@
 from fastapi import HTTPException, APIRouter
 from sqlmodel import select
 
-from ..db import SessionDep
-from ..models import Player, PlayerCreate, PlayerUpdate, PlayerPublic
+from ..database.db import SessionDep
+from ..models.models import Player, PlayerCreate, PlayerUpdate, PlayerPublic
 
 
 router = APIRouter(prefix="/players", tags=["players"])
@@ -39,7 +39,6 @@ async def update_player(player_id: int, player: PlayerUpdate, session: SessionDe
         raise HTTPException(status_code=404, detail="Player not found")
 
     player_data = player.model_dump(exclude_unset=True)
-
     player_db.sqlmodel_update(player_data)
 
     session.add(player_db)

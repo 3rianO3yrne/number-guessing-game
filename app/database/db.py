@@ -1,11 +1,9 @@
 import os
-from typing import Annotated
 import sqlite3
+from typing import Annotated
 
 from fastapi import Depends
 from sqlmodel import Session, SQLModel, create_engine
-from logging import getLogger
-
 
 sqlite_file_name = os.environ["DATABASE_URL"]
 # sqlite_file_name = ":memory:"

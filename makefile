@@ -1,5 +1,6 @@
 test:
-	docker compose -f compose.test.yaml run --build --remove-orphans --rm test_server
+	docker compose -f compose.test.yaml run --build --rm test_server
+
 down:
 	docker compose down --remove-orphans
 
